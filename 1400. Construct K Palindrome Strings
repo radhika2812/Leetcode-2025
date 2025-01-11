@@ -1,0 +1,22 @@
+from collections import Counter
+
+class Solution:
+    def canConstruct(self, string: str, num_partitions: int) -> bool:
+        # If the length of the string is less than the required number of partitions, 
+        # we cannot construct the required partitions, so return False.
+        if len(string) < num_partitions:
+            return False
+      
+        # Count the frequency of each character in the string using Counter.
+        char_counter = Counter(string)
+
+        # Calculate the number of characters that have an odd count.
+        # This loop goes through the values (counts) in the char_counter
+        # and uses a bitwise AND operation (&) with 1 to determine if the count is odd.
+        odd_count = sum(count & 1 for count in char_counter.values())
+
+        # The number of characters with odd counts should not exceed the number
+        # of partitions we want to create, because each palindrome must have at most
+        # one character with an odd count (in the middle). Therefore, if we have
+        # no more odd counts than the number of partitions, we can construct the palindromes.
+        return odd_count <= num_partitions
